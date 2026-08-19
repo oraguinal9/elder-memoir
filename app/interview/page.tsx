@@ -200,11 +200,24 @@ export default function Interview() {
 
         {voiceSupported && (
           <>
-            <button className={`voice-btn ${listening ? "recording" : ""}`} onClick={toggleListen} disabled={loading}>
-              {listening ? "🎤 正在听…\n点我停止" : "🎤\n按住说话"}
-              <span style={{ fontSize: "0.85rem" }}>{listening ? "录音中" : "点我开始"}</span>
-            </button>
-            <p className="hint">{listening ? "请慢慢说，说完点一下按钮" : "点一下，说话就行；不想说也可以打字"}</p>
+            <div className="voice-wrap">
+              <button
+                className={`voice-btn ${listening ? "recording" : ""}`}
+                onClick={toggleListen}
+                disabled={loading}
+                aria-label={listening ? "停止录音" : "开始语音输入"}
+              >
+                <svg className="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="9" y="2" width="6" height="12" rx="3" />
+                  <path d="M5 10a7 7 0 0 0 14 0" />
+                  <line x1="12" y1="19" x2="12" y2="22" />
+                </svg>
+              </button>
+              <p className={`voice-label ${listening ? "on" : ""}`}>
+                {listening ? "正在聆听… 点一下停止" : "点一下，然后说话"}
+              </p>
+            </div>
+            <p className="hint">{listening ? "请慢慢说，说完再点一下按钮" : "不想说也可以直接打字"}</p>
           </>
         )}
 
@@ -216,7 +229,7 @@ export default function Interview() {
           placeholder={voiceSupported ? "说的话会出现在这里，也可以直接打字" : "在这里输入您的回答"}
         />
 
-        <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginTop: "1.5rem" }}>
+        <div className="action-row">
           <button className="btn-main secondary" onClick={skip} disabled={loading} style={{ maxWidth: 200, padding: "0.9rem 1rem", fontSize: "1.05rem" }}>
             这个问题跳过
           </button>

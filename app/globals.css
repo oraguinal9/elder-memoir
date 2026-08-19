@@ -52,34 +52,54 @@ body {
 .btn-main.secondary { background: #fff; color: var(--brand-dark); border: 2px solid var(--brand); }
 .btn-main.secondary:hover { background: var(--brand-light); }
 
-/* ===== 语音大按钮（圆形） ===== */
+/* ===== 语音大按钮（圆形，SVG 麦克风） ===== */
+.voice-wrap { text-align: center; margin: 0.5rem 0 1.2rem; }
 .voice-btn {
-  width: 132px; height: 132px;
+  width: 104px; height: 104px;
   border-radius: 50%;
   border: none;
-  background: var(--brand);
+  background: linear-gradient(145deg, #e0864d, #b9572a);
   color: #fff;
-  font-size: 1.2rem;
   cursor: pointer;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
   margin: 0 auto;
-  box-shadow: 0 6px 20px rgba(196, 99, 42, 0.35);
-  transition: transform 0.15s, background 0.2s;
+  box-shadow: 0 10px 26px rgba(196, 99, 42, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.28);
+  transition: transform 0.15s, box-shadow 0.2s;
+  position: relative;
 }
+.voice-btn:hover { background: linear-gradient(145deg, #eb925a, #c4632a); }
+.voice-btn:active { transform: scale(0.95); }
+.voice-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.voice-btn .mic-icon { width: 42px; height: 42px; }
 .voice-btn.recording {
-  background: var(--danger);
-  animation: pulse 1.2s infinite;
+  background: linear-gradient(145deg, #e05a4d, #c22e2e);
+  animation: pulse 1.4s infinite;
 }
-.voice-btn:hover { background: var(--brand-dark); }
-.voice-btn.recording:hover { background: var(--danger); }
+.voice-btn.recording::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 3px solid rgba(198, 40, 40, 0.45);
+  animation: ring 1.4s ease-out infinite;
+}
+@keyframes ring {
+  0% { transform: scale(0.85); opacity: 1; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(198, 40, 40, 0.5); }
-  50% { box-shadow: 0 0 0 22px rgba(198, 40, 40, 0); }
+  0%, 100% { box-shadow: 0 10px 26px rgba(198, 40, 40, 0.45), inset 0 2px 5px rgba(255, 255, 255, 0.25); }
+  50% { box-shadow: 0 10px 34px rgba(198, 40, 40, 0.7), inset 0 2px 5px rgba(255, 255, 255, 0.25); }
 }
+.voice-label {
+  margin-top: 0.9rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.voice-label.on { color: var(--danger); }
 
 /* ===== 卡片 ===== */
 .card {
@@ -177,6 +197,7 @@ textarea.answer-input:focus { outline: 3px solid var(--brand-light); border-colo
 
 /* ===== 辅助 ===== */
 .hint { font-size: 0.95rem; color: var(--ink-soft); text-align: center; margin-top: 1rem; }
+.action-row { display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; }
 .error-box {
   background: #fdecea;
   color: var(--danger);
@@ -203,4 +224,31 @@ textarea.answer-input:focus { outline: 3px solid var(--brand-light); border-colo
   .no-print { display: none !important; }
   body { background: #fff; }
   .page { max-width: 100%; padding: 0; }
+}
+
+/* ===== 手机适配 ===== */
+@media (max-width: 640px) {
+  html { font-size: 18px; }
+  .page { padding: 1.2rem 0.9rem 3rem; }
+  .card { padding: 1.3rem 1rem; border-radius: 16px; }
+  .question { font-size: 1.5rem; }
+  .book-title { font-size: 1.9rem; }
+  .book-sub { font-size: 0.95rem; }
+  .btn-main { max-width: 100%; font-size: 1.2rem; padding: 1rem 1.5rem; border-radius: 15px; }
+  .btn-main.secondary { max-width: 100%; }
+  .voice-btn { width: 112px; height: 112px; }
+  .voice-btn .mic-icon { width: 46px; height: 46px; }
+  textarea.answer-input { font-size: 1.05rem; min-height: 96px; } /* ≥16px 防 iOS 聚焦缩放 */
+  .steps { gap: 0.6rem; }
+  .step { font-size: 0.92rem; }
+  .step b { font-size: 1.4rem; }
+  .history-item .q { font-size: 0.95rem; }
+  .history-item .a { font-size: 1rem; }
+  .badge { font-size: 0.9rem; }
+  .progress-label { font-size: 0.9rem; }
+  .book-chapter h2 { font-size: 1.3rem; }
+  .hint { font-size: 0.9rem; }
+  input[placeholder] { font-size: 1rem; }
+  .action-row { flex-direction: column; }
+  .action-row .btn-main { width: 100%; max-width: 100%; }
 }
